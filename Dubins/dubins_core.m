@@ -9,7 +9,7 @@
 % Reference:
 %       https://github.com/AndrewWalker/Dubins-Curves#shkel01
 %       Shkel, A. M. and Lumelsky, V. (2001). "Classification of the Dubins
-%                  set". Robotics and Autonomous Systems 34 (2001) 179¡V202
+%                  set". Robotics and Autonomous Systems 34 (2001) 179Â¡V202
 
 function param = dubins_core(p1, p2, r)
     %%%%%%%%%%%%%%%%%%%%%%%%% DEFINE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
