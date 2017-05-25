@@ -12,7 +12,7 @@ pointA = [ 1, 2,   0*pi/180 ];
 pointB = [ 9, 5, 120*pi/180 ];    
 TurnRadius = 5;   
 PathStep = -1;   
-dubins_curve(pointA,pointB, TrunRadius, PathStep);
+dubins_curve(pointA,pointB, TurnRadius, PathStep);
 ``` 
 # References
 * Dubins-Curves by Andrew Walker https://github.com/AndrewWalker/Dubins-Curves#shkel01   
