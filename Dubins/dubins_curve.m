@@ -5,6 +5,7 @@
 %            direction. e.g. [x, y, theta], 
 %   r:  turning radius, set <=0 to automatically determined
 %   stepsize: distance between each points used for graphics
+%   quiet: 1 for no plotting/printing execution time, 0 or no input will plot
 % Output: the points data in stacked row vector
 %
 % Reference:
@@ -37,8 +38,8 @@
 % OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN      %
 % THE SOFTWARE.                                                                  %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function path = dubins_curve(p1, p2, r, stepsize)
-    close(findobj('type','figure','name','Dubins curve'));
+function path = dubins_curve(p1, p2, r, stepsize, quiet)
+    
     %%%%%%%%%%%%%%%%%%%%%%%%% DEFINE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % there are 6 types of dubin's curve, only one will have minimum cost
     % LSL = 1;
@@ -70,22 +71,29 @@ function path = dubins_curve(p1, p2, r, stepsize)
     % param.type = -1;                % path type. one of LSL, LSR, ... 
     %%%%%%%%%%%%%%%%%%%%%%%%% END DEFINE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
+    if nargin < 5 
+        quiet = 0;
+    elseif ~quiet
+        close(findobj('type','figure','name','Dubins curve'));
+        tic;
+    end
     % main function
-    tic;
     param = dubins_core(p1, p2, r);
-    toc;
     if stepsize <= 0
         stepsize = dubins_length(param)/1000;
     end
     path = dubins_path_sample_many(param, stepsize);
     
-    % plotting
-    figure('name','Dubins curve');
-    plot(path(:,1), path(:,2)); axis equal; hold on
-    scatter(p1(1), p1(2), 45, '*','r','LineWidth',1); hold on;
-    scatter(p2(1), p2(2), 45, 'square','b','LineWidth',1); hold on;
-    text(p1(1), p1(2),'start','HorizontalAlignment','center');
-    text(p2(1), p2(2),'end','VerticalAlignment','top');
+    if ~quiet
+        toc;
+        % plotting
+        figure('name','Dubins curve');
+        plot(path(:,1), path(:,2)); axis equal; hold on
+        scatter(p1(1), p1(2), 45, '*','r','LineWidth',1); hold on;
+        scatter(p2(1), p2(2), 45, 'square','b','LineWidth',1); hold on;
+        text(p1(1), p1(2),'start','HorizontalAlignment','center');
+        text(p2(1), p2(2),'end','VerticalAlignment','top');
+    end
 end
 
 function path = dubins_path_sample_many( param, stepsize)
