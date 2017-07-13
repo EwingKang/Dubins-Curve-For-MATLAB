@@ -5,7 +5,10 @@
 %            direction. e.g. [x, y, theta], 
 %   r:  turning radius, set <=0 to automatically determined
 %   stepsize: distance between each points used for graphics
-%   quiet: 1 for no plotting/printing execution time, 0 or no input will plot
+%   quiet: suppressed any output for convinient function implementation
+%          1 for no plotting/printing run duration, set default by 0 or
+%          left blank
+%
 % Output: the points data in stacked row vector
 %
 % Reference:
@@ -71,12 +74,14 @@ function path = dubins_curve(p1, p2, r, stepsize, quiet)
     % param.type = -1;                % path type. one of LSL, LSR, ... 
     %%%%%%%%%%%%%%%%%%%%%%%%% END DEFINE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
+    % if quiet is not defined, assign default to not quiet
     if nargin < 5 
         quiet = 0;
     elseif ~quiet
         close(findobj('type','figure','name','Dubins curve'));
         tic;
     end
+    
     % main function
     param = dubins_core(p1, p2, r);
     if stepsize <= 0
@@ -84,15 +89,18 @@ function path = dubins_curve(p1, p2, r, stepsize, quiet)
     end
     path = dubins_path_sample_many(param, stepsize);
     
+    % plot if not quiet
     if ~quiet
-        toc;
+        disp('dubins calculation time'); toc;
         % plotting
+        tic;    % most of the time is spent on plotting
         figure('name','Dubins curve');
         plot(path(:,1), path(:,2)); axis equal; hold on
         scatter(p1(1), p1(2), 45, '*','r','LineWidth',1); hold on;
         scatter(p2(1), p2(2), 45, 'square','b','LineWidth',1); hold on;
         text(p1(1), p1(2),'start','HorizontalAlignment','center');
         text(p2(1), p2(2),'end','VerticalAlignment','top');
+        disp('plot drawing time'); toc;
     end
 end
 
