@@ -16,8 +16,8 @@ dubins_curve(pointA,pointB, TurnRadius, PathStep);
 ``` 
 By default, the program will plot the path with marked start and end point. The execution time of calculating Dubins path and plotting is also shown in the MATLAB console. Plot is drawn dot by dot and can take much longer then Dubins calculation depends on the setting. To make implementation as a function simpler, you may suppressed the output (both console and plot) by:
 ```quiet = true;
-dubins_curve(pointA,pointB, TurnRadius, PathStep, quiet);``` 
-
+dubins_curve(pointA,pointB, TurnRadius, PathStep, quiet);
+``` 
 # References
 * Dubins-Curves by Andrew Walker https://github.com/AndrewWalker/Dubins-Curves#shkel01   
 * Dubins, L.E. (July 1957). "On Curves of Minimal Length with a Constraint on Average Curvature, and with Prescribed Initial and Terminal Positions and Tangents". American Journal of Mathematics 79 (3): 497–516   
