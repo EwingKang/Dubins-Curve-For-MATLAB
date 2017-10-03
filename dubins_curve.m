@@ -76,9 +76,17 @@ function path = dubins_curve(p1, p2, r, stepsize, quiet)
     % param.type = -1;                % path type. one of LSL, LSR, ... 
     %%%%%%%%%%%%%%%%%%%%%%%%% END DEFINE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
-    % if quiet is not defined, assign default to not quiet
+    % Handle inputs.
+    if nargin < 2
+        warning('Function requires at least two inputs.');
+    elseif nargin < 3
+        r = -1;
+    end
+    if nargin < 4
+        stepsize = 0;
+    end
     if nargin < 5 
-        quiet = 0;
+        quiet = 0;  %Default/undefined is not quiet
     elseif ~quiet
         close(findobj('type','figure','name','Dubins curve'));
         tic;
