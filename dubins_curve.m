@@ -77,12 +77,9 @@ function path = dubins_curve(p1, p2, r, stepsize, quiet)
     %%%%%%%%%%%%%%%%%%%%%%%%% END DEFINE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
     % Handle inputs.
-    if nargin < 2
-        warning('Function requires at least two inputs.');
-    elseif nargin < 3
-        r = -1;
-    end
-    if nargin < 4
+    if nargin < 3
+        error('Function requires at least two inputs.');
+    elseif nargin < 4
         stepsize = 0;
     end
     if nargin < 5 
