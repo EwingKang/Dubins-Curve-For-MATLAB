@@ -1,20 +1,22 @@
-% This function handles the interface to dubins_core.m to give a more 
-% intuative tool within MATLAB
-% Input: 
-%   p1 / p2: two row vector that defines a 2-D point and starting/ending 
-%            direction. e.g. [x, y, theta], 
-%   r:  turning radius, set <=0 to automatically determined
-%   stepsize: distance between each points used for graphics
-%   quiet: suppressed any output for convinient function implementation
-%          1 for no plotting/printing run duration, set default by 0 or
-%          left blank
+%DUBINS_CURVE   Find the Dubins path (shortest curve) between two points.
+%   PATH = DUBINS_CURVE(P1, P2, r, stepsize) finds the shortest curve that
+%   connects two points in the Euclidean plane with a constraint of the
+%   curvature of the path. The start and finish orientations P1 and P2 are
+%   defined as [x, y, theta]. The turning radius (r) and stepsize will be
+%   defined automatically if their value is <= 0. The output PATH is an [mx3]
+%   array consisting of m rows of [x, y, theta] values.  
 %
-% Output: the points data in stacked row vector
+%   PATH = DUBINS_CURVE(P1, P2, r, stepsize, quiet) performs the same as above,
+%   however if quiet == true, then no plots of command window output will be
+%   generated. Ommitting this input will result in quiet = false/0.
 %
+%   This function handles the interface to dubins_core.m to give a more
+%   intuitive tool for finding the Dubins path. 
+
 % Reference:
 %       https://github.com/AndrewWalker/Dubins-Curves#shkel01
 %       Shkel, A. M. and Lumelsky, V. (2001). "Classification of the Dubins
-%                  set". Robotics and Autonomous Systems 34 (2001) 179¡V202
+%                  set". Robotics and Autonomous Systems 34 (2001) 179ï¿½V202
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Original Source: Andrew Walker
 % MATLAB-lization: Ewing Kang
@@ -74,9 +76,14 @@ function path = dubins_curve(p1, p2, r, stepsize, quiet)
     % param.type = -1;                % path type. one of LSL, LSR, ... 
     %%%%%%%%%%%%%%%%%%%%%%%%% END DEFINE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
-    % if quiet is not defined, assign default to not quiet
+    % Handle inputs.
+    if nargin < 3
+        error('Function requires at least two inputs.');
+    elseif nargin < 4
+        stepsize = 0;
+    end
     if nargin < 5 
-        quiet = 0;
+        quiet = 0;  %Default/undefined is not quiet
     elseif ~quiet
         close(findobj('type','figure','name','Dubins curve'));
         tic;
