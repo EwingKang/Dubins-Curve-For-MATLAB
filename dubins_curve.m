@@ -81,10 +81,11 @@ function path = dubins_curve(p1, p2, r, stepsize, quiet)
         error('Function requires at least two inputs.');
     elseif nargin < 4
         stepsize = 0;
-    end
-    if nargin < 5 
+    elseif nargin < 5 
         quiet = 0;  %Default/undefined is not quiet
-    elseif ~quiet
+    end
+    
+    if ~quiet
         close(findobj('type','figure','name','Dubins curve'));
         tic;
     end
