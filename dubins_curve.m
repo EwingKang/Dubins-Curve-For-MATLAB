@@ -71,7 +71,7 @@ function path = dubins_curve(p1, p2, r, stepsize, quiet)
             
     % the return parameter from dubins_core
     % param.p_init = p1;              % the initial configuration
-    % param.SEG_param = [0, 0, 0];    % the lengths of the three segments
+    % param.seg_param = [0, 0, 0];    % the lengths of the three segments
     % param.r = r;                    % model forward velocity / model angular velocity turning radius
     % param.type = -1;                % path type. one of LSL, LSR, ... 
     %%%%%%%%%%%%%%%%%%%%%%%%% END DEFINE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -113,7 +113,7 @@ function path = dubins_curve(p1, p2, r, stepsize, quiet)
 end
 
 function path = dubins_path_sample_many( param, stepsize)
-    if param.STATUS < 0
+    if param.flag < 0
         path = 0;
         return
     end
@@ -130,9 +130,9 @@ function path = dubins_path_sample_many( param, stepsize)
 end
 
 function length = dubins_length(param)
-    length = param.SEG_param(1);
-    length = length + param.SEG_param(2);
-    length = length + param.SEG_param(3);
+    length = param.seg_param(1);
+    length = length + param.seg_param(2);
+    length = length + param.seg_param(3);
     length = length * param.r;
 end
 
@@ -146,7 +146,7 @@ end
  * @returns    - -1 if 't' is not in the correct range
 %}
 function end_pt = dubins_path_sample(param, t)
-    if( t < 0 || t >= dubins_length(param) || param.STATUS < 0)
+    if( t < 0 || t >= dubins_length(param) || param.flag < 0)
         end_pt = -1;
         return;
     end
@@ -184,8 +184,8 @@ function end_pt = dubins_path_sample(param, t)
 
     % Generate the target configuration
     types = DIRDATA(param.type, :);
-    param1 = param.SEG_param(1);
-    param2 = param.SEG_param(2);
+    param1 = param.seg_param(1);
+    param2 = param.seg_param(2);
     mid_pt1 = dubins_segment( param1, p_init, types(1) );
     mid_pt2 = dubins_segment( param2, mid_pt1,  types(2) );
     
