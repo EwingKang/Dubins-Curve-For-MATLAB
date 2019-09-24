@@ -90,6 +90,20 @@ function path = dubins_curve(p1, p2, r, stepsize, quiet)
         tic;
     end
     
+    % Check if the destination lies on the circle that can be reach
+    % directly from the starting point
+    if(p1(3)~=p2(3))
+        T = [cos(p1(3)), sin(p1(3));...
+             cos(p2(3)), sin(p2(3)) ];
+        Y = [p1(1)*cos(p1(3)) + p1(2)*sin(p1(3)); ...
+             p2(1)*cos(p2(3)) + p2(2)*sin(p2(3)) ];
+        X = T \ Y;
+        if( norm(X-reshape(p1(1:2), [2,1]),2) == r ) && ( norm(X-reshape(p2(1:2),[2,1]),2) == r )
+            warning('p2 lies on the turning circle from the p2, dubins curve may be suboptimal');
+        end
+    end
+        
+    
     % main function
     param = dubins_core(p1, p2, r);
     if stepsize <= 0
